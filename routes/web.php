@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\JobController;
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\JobDetailsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,15 +18,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', HomeController::class)->name('frontend.home');
+Route::get('/jobs/{job}', JobDetailsController::class)->name('frontend.job_details');
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->prefix('admin')->group(function () {
+
+    Route::get('dashboard', DashboardController::class)->name('admin.dashboard');
+    Route::resource('jobs', JobController::class, ['as' => 'admin']);
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
