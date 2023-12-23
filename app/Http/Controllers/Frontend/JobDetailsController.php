@@ -12,6 +12,6 @@ class JobDetailsController extends Controller
      */
     public function __invoke(Request $request)
     {
-        //
+        return view('frontend.job-details');
     }
 }

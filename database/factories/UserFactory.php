@@ -40,6 +40,7 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'name' => 'Masud',
             'email' => 'masud@gmail.com',
+            'password' => 12345678
         ]);
     }
 }
